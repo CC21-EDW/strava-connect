@@ -1,0 +1,22 @@
+server:
+  servlet:
+    charset: "UTF-8"
+    enabled: true
+    force: true
+
+spring:
+  jackson:
+    serialization:
+      indent_output: true
+
+logging:
+  level:
+    root: INFO
+
+strava:
+  auth:
+    token-url: "https://www.strava.com/api/v3/oauth/token"
+    authorization-url: "https://www.strava.com/oauth/authorize"
+  api:
+    base-path: "https://www.strava.com/api/v3"
+    security: "strava_oauth"
