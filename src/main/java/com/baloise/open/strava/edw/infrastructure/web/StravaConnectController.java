@@ -1,12 +1,14 @@
 package com.baloise.open.strava.edw.infrastructure.web;
 
+import com.baloise.open.edw.infrastructure.kafka.model.ActivityDto;
 import com.baloise.open.strava.client.ApiClient;
 import com.baloise.open.strava.client.api.ActivitiesApi;
 import com.baloise.open.strava.client.auth.OAuth;
 import com.baloise.open.strava.client.model.SummaryActivityDto;
 import com.baloise.open.strava.edw.domain.model.Activity;
+import com.baloise.open.strava.edw.infrastructure.kafka.KafkaController;
+import com.baloise.open.strava.edw.infrastructure.kafka.mapper.ActivityDtoMapper;
 import com.baloise.open.strava.edw.infrastructure.web.config.StravaConfiguration;
-import com.baloise.open.strava.edw.infrastructure.web.mapper.ActivityDtoMapper;
 import com.baloise.open.strava.edw.infrastructure.web.model.AuthorizationRequestDto;
 import com.baloise.open.strava.edw.infrastructure.web.model.AuthorizationResponseDto;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +36,9 @@ public class StravaConnectController {
 
     @Autowired
     private StravaConfiguration stravaConfiguration;
+
+    @Autowired
+    private KafkaController kafkaController;
 
     @GetMapping("/start")
     @Produces(MediaType.TEXT_HTML_VALUE)
@@ -92,7 +97,19 @@ public class StravaConnectController {
         for (SummaryActivityDto currentActivity : activities) {
             log.debug("-> {}: {}", currentActivity.getStartDate(), currentActivity.getName());
         }
-        return ActivityDtoMapper.INSTANCE.map(activities);
+        publishActivities(activities);
+        return com.baloise.open.strava.edw.infrastructure.web.mapper.ActivityDtoMapper.INSTANCE.map(activities);
+    }
+
+    /**
+     * Publishes the given list of activities to the kafka topic:
+     * first each entity will be converted following an AVRO schema.
+     *
+     * @param activities the activities that should be converted and published.
+     */
+    private void publishActivities(List<SummaryActivityDto> activities) {
+        List<ActivityDto> kafkaActivities = ActivityDtoMapper.INSTANCE.map(activities);
+        kafkaController.pushActivities(kafkaActivities);
     }
 
     /**
