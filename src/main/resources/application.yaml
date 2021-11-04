@@ -20,3 +20,11 @@ strava:
   api:
     base-path: "https://www.strava.com/api/v3"
     security: "strava_oauth"
+
+edw:
+  kafka:
+    system-id: strava-connect
+    schema-registry-url: "http://localhost:9012"
+    activity:
+      topic-name: "lz.edw.strava-connect.activity"
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer

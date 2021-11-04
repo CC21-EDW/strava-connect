@@ -1,0 +1,59 @@
+{
+  "type": "record",
+  "name": "ActivityDto",
+  "namespace": "com.baloise.open.edw.infrastructure.kafka.model",
+  "doc": "Sports activity as provided by Strava, Komooot, etc.",
+  "fields": [
+    {
+      "name": "name",
+      "doc": "Human readable name of the activity.",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "type",
+      "doc": "Type of activity like running.",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "timezone",
+      "doc": "Timezone where the activity took place - important for times.",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "movingTime",
+      "doc": "Amount of time in seconds the activity took place while being in motion.",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "name": "elapsedTime",
+      "doc": "Amount of time in seconds the activity took place.",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "name": "startDate",
+      "doc": "Date when activity started.",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "logicalType": "time"
+        }
+      ]
+    }
+  ]
+}
