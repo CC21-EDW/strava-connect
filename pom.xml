@@ -68,14 +68,21 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
+        <strava-java-client.version>1.0.0-SNAPSHOT</strava-java-client.version>
+        <edw-component.version>0.0.3-SNAPSHOT</edw-component.version>
+
         <junit.jupiter.version>5.8.1</junit.jupiter.version>
-        <junit.platform.version>1.2.0</junit.platform.version>
+        <junit.platform.version>1.8.1</junit.platform.version>
         <org.hamcrest.version>2.2</org.hamcrest.version>
+        <testcontainers.version>1.16.2</testcontainers.version>
+
         <lombok.version>1.18.22</lombok.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <slf4j.version>1.7.32</slf4j.version>
+
         <avro.version>1.10.2</avro.version>
         <confluent.version>5.3.0</confluent.version>
+        <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
     </properties>
 
     <dependencies>
@@ -95,7 +102,7 @@
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.1.1</version>
+            <version>${javax.ws.rs-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -116,12 +123,12 @@
         <dependency>
             <groupId>com.baloise.open.edw</groupId>
             <artifactId>strava-java-client</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${strava-java-client.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baloise.open.edw-component</groupId>
             <artifactId>edw-component</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${edw-component.version}</version>
         </dependency>
 
         <dependency>
@@ -168,6 +175,18 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
             <version>${org.hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
