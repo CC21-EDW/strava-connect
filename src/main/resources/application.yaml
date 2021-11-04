@@ -12,6 +12,8 @@ spring:
 logging:
   level:
     root: INFO
+    org.apache.kafka.clients: WARN
+    io.confluent.kafka.serializers: WARN
 
 strava:
   auth:

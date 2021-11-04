@@ -61,6 +61,6 @@ public class PushActivityEventTest {
         ActivityDto kafkaActivityDto = ActivityDtoMapper.INSTANCE.map(activity);
         //push
         Producer activityProducer = Producer.create(getTestContainerProperties(), TOPIC_NAME, SYSTEM_ID);
-        activityProducer.pushEvent(TOPIC_NAME, "tbd-id", kafkaActivityDto);
+        activityProducer.pushEvent(kafkaActivityDto);
     }
 }

@@ -35,17 +35,12 @@ public class KafkaController {
 
     public void pushActivities(List<ActivityDto> activities) {
         for (ActivityDto currentActivity : activities) {
-            activityProducer.pushEvent(configuration.getActivityTopicName(), "tbd-id", currentActivity);
+            activityProducer.pushEvent(currentActivity);
         }
-    }
-
-    @PostConstruct
-    public void connectToWorkflow() {
-        log.info("Connected system with ID '{}' to workflow.", configuration.getSystemId());
     }
 
     @PreDestroy
     public void disconnectFromWorkflow() {
-        log.info("Disconnected system with ID '{}' from workflow.", configuration.getSystemId());
+        activityProducer.pushStatusProducerShutdown();
     }
 }
