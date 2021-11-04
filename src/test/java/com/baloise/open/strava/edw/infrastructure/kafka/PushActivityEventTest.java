@@ -8,10 +8,6 @@ import com.baloise.open.strava.client.model.SummaryActivityDto;
 import com.baloise.open.strava.edw.infrastructure.kafka.mapper.ActivityDtoMapper;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -24,7 +20,6 @@ import java.util.Properties;
  * Test disabled to be able to run from IDE but have no dependencies in CI/ CD.
  */
 @Testcontainers
-@ContextConfiguration(initializers = {PushActivityEventTest.Initializer.class})
 public class PushActivityEventTest {
     /**
      * Provides the TEST topic in order not to interfere with production.
@@ -43,12 +38,6 @@ public class PushActivityEventTest {
 
     @Container
     public static KafkaContainer kafkaTestContainer = new KafkaContainer(DockerImageName.parse(KAFKA_DOCKER_IMG));
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of().applyTo(configurableApplicationContext.getEnvironment());
-        }
-    }
 
     private Properties getTestContainerProperties() {
         Properties properties = new Properties();
