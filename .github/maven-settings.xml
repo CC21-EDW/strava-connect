@@ -25,8 +25,29 @@
                 <repository>
                     <id>github</id>
                     <name>GitHub Baloise Apache Maven Packages</name>
-                    <url>https://maven.pkg.github.com/CC21-EDW/</url>
+                    <url>https://maven.pkg.github.com/CC21-EDW/strava-connect/</url>
                 </repository>
+
+              <repository>
+                <id>edw-component</id>
+                <name>GitHub CC21-EDW Apache Maven Packages</name>
+                <url>https://maven.pkg.github.com/CC21-EDW/edw-component</url>
+                <releases>
+                  <enabled>true</enabled>
+                </releases>
+              </repository>
+              <repository>
+                <id>strava-api</id>
+                <name>GitHub CC21-EDW Apache Maven Packages</name>
+                <url>https://maven.pkg.github.com/CC21-EDW/strava-api</url>
+                <releases>
+                  <enabled>true</enabled>
+                </releases>
+                <snapshots>
+                  <enabled>true</enabled>
+                </snapshots>
+              </repository>
+
             </repositories>
         </profile>
     </profiles>
@@ -34,6 +55,16 @@
     <servers>
         <server>
             <id>github</id>
+            <username>${env.GITHUB_USERNAME}</username>
+            <password>${env.GITHUB_TOKEN}</password>
+        </server>
+        <server>
+            <id>edw-component</id>
+            <username>${env.GITHUB_USERNAME}</username>
+            <password>${env.GITHUB_TOKEN}</password>
+        </server>
+        <server>
+            <id>strava-api</id>
             <username>${env.GITHUB_USERNAME}</username>
             <password>${env.GITHUB_TOKEN}</password>
         </server>
