@@ -35,7 +35,7 @@
       <url>https://packages.confluent.io/maven/</url>
     </repository>
     <repository>
-      <id>edw-component</id>
+      <id>github</id>
       <name>GitHub CC21-EDW Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/CC21-EDW/edw-component</url>
       <releases>
@@ -43,7 +43,7 @@
       </releases>
     </repository>
     <repository>
-      <id>strava-api</id>
+      <id>github2</id>
       <name>GitHub CC21-EDW Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/CC21-EDW/strava-api</url>
       <releases>
@@ -87,7 +87,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
 
-    <strava-java-client.version>1.0.0-SNAPSHOT</strava-java-client.version>
+    <strava-java-client.version>1.0.5</strava-java-client.version>
     <edw-component.version>0.1.1</edw-component.version>
 
     <junit.platform.version>1.8.1</junit.platform.version>
