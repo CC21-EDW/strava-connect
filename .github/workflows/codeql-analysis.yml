@@ -47,8 +47,10 @@ jobs:
         queries: security-and-quality
 
     # If this step fails, then you should remove it and run the build manually
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    - name: Build
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+      run: mvn -B -V -e clean package --settings .github/maven-settings.xml -Dspring.profiles.active=ci -Dfindbugs.skip -Dcheckstyle.skip -Dpmd.skip=true -Denforcer.skip -Dmaven.javadoc.skip -DskipTests -Dmaven.test.skip.exec -Dlicense.skip=true -Drat.skip=true
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
