@@ -56,7 +56,7 @@
 
   <groupId>com.baloise.open.edw</groupId>
   <artifactId>strava-connect</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <ciManagement>
@@ -70,7 +70,7 @@
   <scm>
     <url>https://github.com/CC21-EDW/strava-connect.git</url>
     <connection>scm:git:https://github.com/CC21-EDW/strava-connect.git</connection>
-    <tag>v0.0.3</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
