@@ -13,11 +13,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master # don't get confused by @master - it is the version of the checkout action. You repo will be checked out with ${{ github.ref }}
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
       - name: Deploy to Github Package Registry
         env:
             GITHUB_USERNAME: x-access-token
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn -B --settings .github/maven-settings.xml deploy
+        run: mvn -B --settings .github/maven-settings.xml deploy -Dspring.profiles.active=ci
       - name: Release using Github CLI
         run: gh release create ${GITHUB_REF##*/} ./target/*.jar -t "Release ${GITHUB_REF##*/}"
         env:
