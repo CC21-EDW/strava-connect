@@ -8,7 +8,7 @@ e.g. by using
 ```
 cp -R repository-template-java/ new-name && cd new-name && git config --local --unset remote.origin.url && git config --local --add remote.origin.url git@github.com:baloise/new-name.git && git reset --hard $(git commit-tree FETCH_HEAD^{tree} -m "Initial contribution") &&  git grep -l 'repository-template-java' | xargs sed -i '' -e 's/repository-template-java/new-name/g' && mvn clean verify && git add -A && git commit -m "Rename from template to new-name" && cd ..
 ```
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bf6fa237dd934970991ecba2c66db23e)](https://app.codacy.com/app/baloise/repository-template-java?utm_source=github.com&utm_medium=referral&utm_content=baloise/repository-template-java&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/6888b72aaf354f4496af9b068d424eb0)](https://www.codacy.com/gh/CC21-EDW/strava-connect/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CC21-EDW/strava-connect&amp;utm_campaign=Badge_Grade)
 [![DepShield Badge](https://depshield.sonatype.org/badges/baloise/repository-template-java/depshield.svg)](https://depshield.github.io)
 ![Build Status](https://github.com/baloise/repository-template-java/workflows/CI/badge.svg)
 
