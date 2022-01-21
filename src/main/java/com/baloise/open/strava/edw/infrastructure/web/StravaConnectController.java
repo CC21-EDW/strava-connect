@@ -11,6 +11,7 @@ import com.baloise.open.strava.edw.infrastructure.kafka.mapper.ActivityDtoMapper
 import com.baloise.open.strava.edw.infrastructure.web.config.StravaConfiguration;
 import com.baloise.open.strava.edw.infrastructure.web.model.AuthorizationRequestDto;
 import com.baloise.open.strava.edw.infrastructure.web.model.AuthorizationResponseDto;
+import com.baloise.open.strava.edw.infrastructure.web.openapi.StravaConnectOpenApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -24,21 +25,28 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Produces;
 import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/strava")
+@RequestMapping("/")
+//@SecurityRequirement(name = "security_auth")
 @Slf4j
-public class StravaConnectController {
+public class StravaConnectController implements StravaConnectOpenApi {
 
     @Autowired
     private StravaConfiguration stravaConfiguration;
 
     @Autowired
     private KafkaController kafkaController;
+
+    @PostConstruct
+    public void indicateStarted() {
+        log.info("Strava: {}", stravaConfiguration.getAuthorizationUrl());
+    }
 
     @GetMapping("/start")
     @Produces(MediaType.TEXT_HTML_VALUE)

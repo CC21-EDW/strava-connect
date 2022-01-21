@@ -1,10 +1,14 @@
 server:
   port: 9099
 
+management:
+  server:
+    port: 10099
+
 logging:
   level:
     com.baloise.open.strava.edw.infrastructure.web: DEBUG
 
 strava:
   auth:
-    redirect-url: "http://localhost:9099/strava/auth"
+    redirect-url: "http://localhost:${server.port}/strava/auth"

@@ -3,11 +3,80 @@ server:
     charset: "UTF-8"
     enabled: true
     force: true
+    encoding:
+      force: true
+    context-path: "/stravaconnect"
+  max-http-header-size: 15MB
+  forward-headers-strategy: framework
+
+management:
+  server:
+    port: 9000
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+#keycloak:
+#  auth-server-url: ${KEYCLOAK_URL}
+#  realm: ${KEYCLOAK_REALM}
+#  resource: ${KEYCLOAK_CLIENT}
+#  bearer-only: true
+#  principal-attribute: preferred_username
+#  enabled: true
+#  ssl-required: none
+#  confidential-port: 443
 
 spring:
+  application.name: @project.name@
   jackson:
     serialization:
       indent_output: true
+      WRITE_DATES_AS_TIMESTAMPS: false
+  output:
+    ansi:
+      enabled: ALWAYS
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: ${keycloak.auth-server-url}/realms/${keycloak.realm}
+#          jwk-set-uri: ${keycloak.auth-server-url}/realms/${keycloak.realm}/protocol/openid-connect/certs
+
+springdoc:
+  api-docs:
+    path: "/api-docs"
+    enabled: true
+  swagger-ui:
+    path: /openapi-ui.html
+    displayRequestDuration: true
+    tagsSorter: alpha
+    #oauth:
+    #   clientId: TBD
+    #  realm: ${keycloak.realm}
+    #oauth2-redirect-url: ${SWAGGER_REDIRECT_BASE_URL}${server.servlet.context-path}/swagger-ui/oauth2-redirect.html
+  #oAuthFlow:
+  #  authorizationUrl: ${keycloak.auth-server-url}/realms/${keycloak.realm}/protocol/openid-connect/auth
+  #  refreshUrl:  ${keycloak.auth-server-url}/realms/${keycloak.realm}/protocol/openid-connect/token
+  #  tokenUrl: ${keycloak.auth-server-url}/realms/${keycloak.realm}/protocol/openid-connect/token
+  api-info:
+    header:
+      audience: "open-source"
+      api-id: "strava-connect"
+    title: "@project.name@"
+    description: "@project.description@."
+    version: "@project.version@"
+    termsOfServiceUrl: "http://www.baloise.ch/terms-of-service"
+    license: "Apache 2.0"
+    licenseUrl: "https://www.apache.org/licenses/LICENSE-2.0"
+    contact:
+      name: "CC21-EDW"
+      url: "https://github.com/CC21-EDW/strava-connect"
+      email: "tbd@baloise.ch"
 
 logging:
   level:
