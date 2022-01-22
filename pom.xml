@@ -35,7 +35,7 @@
             <url>https://packages.confluent.io/maven/</url>
         </repository>
         <repository>
-            <id>github</id>
+            <id>edw-component</id>
             <name>GitHub CC21-EDW Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/CC21-EDW/edw-component</url>
             <releases>
@@ -43,7 +43,7 @@
             </releases>
         </repository>
         <repository>
-            <id>github2</id>
+            <id>strava-api</id>
             <name>GitHub CC21-EDW Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/CC21-EDW/strava-api</url>
             <releases>
