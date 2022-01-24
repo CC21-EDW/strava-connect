@@ -16,10 +16,12 @@ import org.apache.avro.message.SchemaStore;
 @org.apache.avro.specific.AvroGenerated
 public class ActivityDto extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = -3370436617317452339L;
+
+
   public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ActivityDto\",\"namespace\":\"com.baloise.open.edw.infrastructure.kafka.model\",\"doc\":\"Sports activity as provided by Strava, Komooot, etc.\",\"fields\":[{\"name\":\"name\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"doc\":\"Human readable name of the activity.\"},{\"name\":\"type\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"doc\":\"Type of activity like running.\"},{\"name\":\"timezone\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"doc\":\"Timezone where the activity took place - important for times.\"},{\"name\":\"movingTime\",\"type\":[\"null\",\"int\"],\"doc\":\"Amount of time in seconds the activity took place while being in motion.\"},{\"name\":\"elapsedTime\",\"type\":[\"null\",\"int\"],\"doc\":\"Amount of time in seconds the activity took place.\"},{\"name\":\"startDate\",\"type\":[\"null\",{\"type\":\"long\",\"logicalType\":\"time\"}],\"doc\":\"Date when activity started.\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
-  private static SpecificData MODEL$ = new SpecificData();
+  private static final SpecificData MODEL$ = new SpecificData();
 
   private static final BinaryMessageEncoder<ActivityDto> ENCODER =
       new BinaryMessageEncoder<ActivityDto>(MODEL$, SCHEMA$);
@@ -73,17 +75,17 @@ public class ActivityDto extends org.apache.avro.specific.SpecificRecordBase imp
   }
 
   /** Human readable name of the activity. */
-   private java.lang.String name;
+  private java.lang.String name;
   /** Type of activity like running. */
-   private java.lang.String type;
+  private java.lang.String type;
   /** Timezone where the activity took place - important for times. */
-   private java.lang.String timezone;
+  private java.lang.String timezone;
   /** Amount of time in seconds the activity took place while being in motion. */
-   private java.lang.Integer movingTime;
+  private java.lang.Integer movingTime;
   /** Amount of time in seconds the activity took place. */
-   private java.lang.Integer elapsedTime;
+  private java.lang.Integer elapsedTime;
   /** Date when activity started. */
-   private java.lang.Long startDate;
+  private java.lang.Long startDate;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -303,7 +305,7 @@ public class ActivityDto extends org.apache.avro.specific.SpecificRecordBase imp
 
     /** Creates a new Builder */
     private Builder() {
-      super(SCHEMA$);
+      super(SCHEMA$, MODEL$);
     }
 
     /**
@@ -343,7 +345,7 @@ public class ActivityDto extends org.apache.avro.specific.SpecificRecordBase imp
      * @param other The existing instance to copy.
      */
     private Builder(com.baloise.open.edw.infrastructure.kafka.model.ActivityDto other) {
-      super(SCHEMA$);
+      super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
         fieldSetFlags()[0] = true;

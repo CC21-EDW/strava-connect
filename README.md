@@ -1,5 +1,13 @@
-# repository-template-java
-A template to use when starting a new open source project.
+# strava-connect
+
+## Setup
+
+### IntelliJ
+- make sure you also have added `src/generated/java` as generated sources module to find avro generated classes.
+
+## Monitoring
+see https://www.baeldung.com/spring-boot-actuators
+- i.e. http://localhost:10099/actuator/health
 
 ## perform a repository wide search and replace for "repository-template-java" and the "target-repo-name"
 
