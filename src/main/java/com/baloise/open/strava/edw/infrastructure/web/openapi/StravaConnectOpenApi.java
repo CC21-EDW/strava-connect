@@ -1,6 +1,8 @@
 package com.baloise.open.strava.edw.infrastructure.web.openapi;
 
 import com.baloise.open.strava.edw.domain.model.Activity;
+import com.baloise.open.strava.edw.infrastructure.web.model.auth.LoginUrlDto;
+import com.baloise.open.strava.edw.infrastructure.web.model.auth.StravaRequestUrl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,21 +20,22 @@ public interface StravaConnectOpenApi {
             operationId = "login-url",
             parameters = {@Parameter(name = "client_id"),
                     @Parameter(name = "client_secret")})
-    String loginUrl(String clientId,
-                    String clientSecret);
+    LoginUrlDto loginUrl(String clientId,
+                         String clientSecret);
 
-    @Operation(summary = "Performs a login and returns an HTML page with an authenticated access to entities.",
+    @Operation(summary = "CALLED BY STRAVA! Provides all URls for authenticated access of entities.",
+            hidden = true,
             method = "GET",
             operationId = "authenticate",
             parameters = {@Parameter(name = "client_id"),
                     @Parameter(name = "code"),
                     @Parameter(name = "state"),
                     @Parameter(name = "scope")})
-    String authenticate(@RequestParam(name = "client_id") String clientId,
-                        @RequestParam String code,
-                        @RequestParam String state,
-                        @RequestParam(required = false) String scope,
-                        HttpServletRequest httpRequest);
+    StravaRequestUrl authenticate(@RequestParam(name = "client_id") String clientId,
+                                        @RequestParam String code,
+                                        @RequestParam String state,
+                                        @RequestParam(required = false) String scope,
+                                        HttpServletRequest httpRequest);
 
     @Operation(summary = "Provides all activities as paged requests.",
             method = "GET",
