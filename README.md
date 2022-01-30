@@ -1,5 +1,9 @@
 # strava-connect
 
+## User Guide
+Simply using and understanding the applied technologies - or just synchronizing your activities with Strava - can be done
+following the [User Guide](docs/user-guide/user-guide.md).
+
 ## Setup
 
 ### IntelliJ
@@ -10,7 +14,6 @@ see https://www.baeldung.com/spring-boot-actuators
 - i.e. http://localhost:10099/actuator/health
 
 ## perform a repository wide search and replace for "repository-template-java" and the "target-repo-name"
-
 e.g. by using
 
 ```
