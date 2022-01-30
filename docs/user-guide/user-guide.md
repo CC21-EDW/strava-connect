@@ -1,6 +1,15 @@
 # User Guide
 
 ## Prerequisites
+### Ensure Started Backend
+Make sure you have started your backends using the `kafka-docker-compose` project:
+```
+cd kafka-docker-compose
+docker-compose up
+```
+
+Make sure not having any exceptions or errors in the command line output.
+
 ### Log-in on Strava
 Create a new account on https://www.strava.com or log-in onto an existing.
 
