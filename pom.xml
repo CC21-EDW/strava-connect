@@ -101,7 +101,7 @@
         <springdoc.version>1.6.3</springdoc.version>
         <problem.version>0.27.0</problem.version>
 
-        <avro.version>1.11.3</avro.version>
+        <avro.version>1.11.4</avro.version>
         <confluent.version>7.0.1</confluent.version>
         <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
 
