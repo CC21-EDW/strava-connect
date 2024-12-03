@@ -21,4 +21,7 @@ public class StravaConfiguration {
 
     @Value("${strava.api.security}")
     private String apiSecurity;
+
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
 }

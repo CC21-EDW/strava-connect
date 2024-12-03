@@ -11,8 +11,11 @@ import com.baloise.open.strava.edw.infrastructure.kafka.mapper.ActivityDtoMapper
 import com.baloise.open.strava.edw.infrastructure.web.config.StravaConfiguration;
 import com.baloise.open.strava.edw.infrastructure.web.model.AuthorizationRequestDto;
 import com.baloise.open.strava.edw.infrastructure.web.model.AuthorizationResponseDto;
+import com.baloise.open.strava.edw.infrastructure.web.model.auth.LoginUrlDto;
+import com.baloise.open.strava.edw.infrastructure.web.model.auth.StravaRequestUrl;
 import com.baloise.open.strava.edw.infrastructure.web.openapi.StravaConnectOpenApi;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.errors.UnsupportedByAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -45,29 +48,30 @@ public class StravaConnectController implements StravaConnectOpenApi {
 
     @PostConstruct
     public void indicateStarted() {
-        log.info("Strava: {}", stravaConfiguration.getAuthorizationUrl());
+        log.info("Accessing Strava on {}.", stravaConfiguration.getAuthorizationUrl());
     }
 
     @GetMapping("/start")
-    @Produces(MediaType.TEXT_HTML_VALUE)
-    public String loginUrl(@RequestParam(name = "client_id") String clientId,
-                           @RequestParam(name = "client_secret") String clientSecret) {
-        return generateLoginHtmlPage(stravaConfiguration.getAuthorizationUrl() +
-                "?client_id=" + clientId +
-                "&redirect_uri=" + stravaConfiguration.getRedirectUrl() + "?client_id=" + clientId + "&client_secret=" + clientSecret +
-                "&response_type=code" +
-                "&approval_prompt=auto" +
-                "&scope=read_all,profile:read_all,activity:read_all" +
-                "&state=" + clientSecret);
+    public LoginUrlDto loginUrl(@RequestParam(name = "client_id") String clientId,
+                                @RequestParam(name = "client_secret") String clientSecret) {
+
+        return LoginUrlDto.builder()
+                .url(stravaConfiguration.getAuthorizationUrl() +
+                        "?client_id=" + clientId +
+                        "&redirect_uri=" + stravaConfiguration.getRedirectUrl() + "?client_id=" + clientId + "&client_secret=" + clientSecret +
+                        "&response_type=code" +
+                        "&approval_prompt=auto" +
+                        "&scope=read_all,profile:read_all,activity:read_all" +
+                        "&state=" + clientSecret)
+                .build();
     }
 
     @GetMapping("/auth")
-    @Produces(MediaType.TEXT_HTML_VALUE)
-    public String authenticate(@RequestParam(name = "client_id") String clientId,
-                               @RequestParam String code,
-                               @RequestParam String state,
-                               @RequestParam(required = false) String scope,
-                               HttpServletRequest httpRequest) {
+    public StravaRequestUrl authenticate(@RequestParam(name = "client_id") String clientId,
+                                         @RequestParam String code,
+                                         @RequestParam String state,
+                                         @RequestParam(required = false) String scope,
+                                         HttpServletRequest httpRequest) {
         RestTemplate restTemplate = new RestTemplate();
         AuthorizationRequestDto request = AuthorizationRequestDto.builder()
                 .clientId(clientId)
@@ -80,13 +84,13 @@ public class StravaConnectController implements StravaConnectOpenApi {
                 HttpMethod.POST,
                 entity,
                 AuthorizationResponseDto.class);
+        log.debug("Retrieved authorization: {}", response.getBody());
 
         if (response.getStatusCodeValue() >= 300) {
             //todo: problem if we were not able to login
-            return "FAILED to create login";
+            throw new RuntimeException("Did not authenticate");
         } else {
-            log.debug("Retrieved authorization: {}", response.getBody());
-            return generatePostAuthenticationHtmlPage(httpRequest, clientId, Objects.requireNonNull(response.getBody()).getAccessToken());
+            return createStravaUri(httpRequest, clientId, Objects.requireNonNull(response.getBody()).getAccessToken());
         }
     }
 
@@ -128,53 +132,16 @@ public class StravaConnectController implements StravaConnectOpenApi {
      * @param accessToken the access token that has been generated before.
      * @return the URI as string ready to be used.
      */
-    private String createActivitiesUri(HttpServletRequest httpRequest,
-                                       String clientId,
-                                       String accessToken) {
-        String baseUrl = ServletUriComponentsBuilder.fromRequestUri(httpRequest)
-                .replacePath("/strava/activities")
-                .build()
-                .toUriString();
-
-        return baseUrl +
-                "?client_id=" + clientId +
-                "&access_token=" + accessToken +
-                "&page=1";
-    }
-
-    /**
-     * Provides the HTML code used to provide all REST calls that can now be processed to run authenticated requests
-     * against Strava.
-     *
-     * @param httpRequest the HTTP Request used to get the base path from.
-     * @param clientId    the Strava client ID used to identify the account.
-     * @param accessToken the access token that has been generated before.
-     * @return the HTML code as string.
-     */
-    private String generatePostAuthenticationHtmlPage(HttpServletRequest httpRequest,
-                                                      String clientId,
-                                                      String accessToken) {
-        return "<html>" +
-                "<body>" +
-                "<h1>" + clientId + "</h1>" +
-                "<ul>" +
-                "<li><a target='_blank' href='" + createActivitiesUri(httpRequest, clientId, accessToken) + "'>Activities</a></li>" +
-                "</ul>" +
-                "</body>" +
-                "</html>";
-    }
-
-    /**
-     * Provides an HTML page we use to initiate the authentication process.
-     *
-     * @param loginUri the URI as string we need to start login process.
-     * @return the HTML code as string.
-     */
-    private String generateLoginHtmlPage(String loginUri) {
-        return "<html>" +
-                "<body>" +
-                "<a target='_blank' href='" + loginUri + "'>Login</a>" +
-                "</body>" +
-                "</html>";
+    private StravaRequestUrl createStravaUri(HttpServletRequest httpRequest,
+                                             String clientId,
+                                             String accessToken) {
+        return StravaRequestUrl.builder()
+                .baseUrl(ServletUriComponentsBuilder.fromRequestUri(httpRequest)
+                        .replacePath(stravaConfiguration.getContextPath())
+                        .build()
+                        .toUriString())
+                .clientId(clientId)
+                .accessToken(accessToken)
+                .build();
     }
 }

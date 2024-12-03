@@ -11,4 +11,4 @@ logging:
 
 strava:
   auth:
-    redirect-url: "http://localhost:${server.port}/strava/auth"
+    redirect-url: "http://localhost:${server.port}${server.servlet.context-path}/auth"
